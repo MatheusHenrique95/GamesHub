@@ -1,0 +1,15 @@
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\bin\Debug\net6.0\GamesHub.exe
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\bin\Debug\net6.0\GamesHub.deps.json
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\bin\Debug\net6.0\GamesHub.runtimeconfig.json
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\bin\Debug\net6.0\GamesHub.dll
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\bin\Debug\net6.0\GamesHub.pdb
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.csproj.AssemblyReference.cache
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.GeneratedMSBuildEditorConfig.editorconfig
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.AssemblyInfoInputs.cache
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.AssemblyInfo.cs
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.csproj.CoreCompileInputs.cache
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.dll
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\refint\GamesHub.dll
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.pdb
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\GamesHub.genruntimeconfig.cache
+D:\Sharp Coders\Exercícios\Autorais(do professor)\GamesHub\GamesHub\obj\Debug\net6.0\ref\GamesHub.dll
