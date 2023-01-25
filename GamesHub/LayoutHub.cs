@@ -198,8 +198,40 @@ public class LayoutHub {
         LogedScreen(player1, player2);
     }
     private static void LogedScreen(Player player1, Player player2) {
-        Console.WriteLine(player1.Nickname);
-        Console.WriteLine(player2.Nickname);
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("         [1] Play Tic Tac Toe");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [2] Play Chess");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [3] Play...");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [0] Back to Mainscreen");
+        Console.WriteLine("         ------------------------");
+        int option = int.Parse(Console.ReadLine());
+        switch (option) {
+            case 0:
+                Mainscreen();
+                break;
+            case 1:
+                TicTacToe newGame = new TicTacToe(player1, player2);
+                newGame.PlayTicTacToe(player1, player2);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                Warnings.Wrong();
+                Console.WriteLine("             [Invalid option]");
+                Thread.Sleep(2000);
+                Mainscreen();
+                break;
+        }
 
     }
 }
