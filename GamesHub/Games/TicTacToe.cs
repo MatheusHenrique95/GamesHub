@@ -1,4 +1,5 @@
 ﻿using GamesHub.Entities;
+using GamesHub.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,30 +8,37 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GamesHub.Games {
+
     public class TicTacToe {
-        public string One { get; set; } = " ";
-        public string Two { get; set; } = " ";
-        public string Three { get; set; } = " ";
-        public string Four { get; set; } = " ";
-        public string Five { get; set; } = " ";
-        public string Six { get; set; } = " ";
-        public string Seven { get; set; } = " ";
-        public string Eigth { get; set; } = " ";
-        public string Nine { get; set; } = " ";
-
-        public TicTacToe() {
+        public Player player1 { get; set; }
+        public Player player2 { get; set; }
+        public TicTacToe(Player player1, Player player2 ) {
+            this.player1 = player1;
+            this.player2 = player2;
         }
-        public void Layout() {
+        public static int n;
+        public static string[,] position = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
+        public static void Layout() {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
-            Console.Write($"       |       |       \n" +
-                          $"   {One}   |   {Two}   |   {Three}   \n" +
-                          $"_______|_______|_______\n" +
-                          $"       |       |       \n" +
-                          $"   {Four}   |   {Five}   |   {Six}   \n" +
-                          $"_______|_______|_______\n" +
-                          $"       |       |       \n" +
-                          $"   {Seven}   |   {Eigth}   |   {Nine}   \n" +
-                          $"       |       |       \n");
+            Console.Write($"                    |       |       \n" +
+                          $"                {position[2, 0]}   |   {position[2, 1]}   |   {position[2, 2]}   \n" +
+                          $"             _______|_______|_______\n" +
+                          $"                    |       |       \n" +
+                          $"                {position[1, 0]}   |   {position[1, 1]}   |   {position[1, 2]}   \n" +
+                          $"             _______|_______|_______\n" +
+                          $"                    |       |       \n" +
+                          $"                {position[0, 0]}   |   {position[0, 1]}   |   {position[0, 2]}   \n" +
+                          $"                    |       |       \n");
         }
+        
+        
+        
     }
 }

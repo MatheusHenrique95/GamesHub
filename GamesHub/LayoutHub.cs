@@ -1,8 +1,10 @@
 ﻿using GamesHub.Entities;
+using GamesHub.Games;
 using GamesHub.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,15 +22,15 @@ public class LayoutHub {
         Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine("         [1] Register a player");
-        Console.WriteLine("         ---------------------");
-        Console.WriteLine("         [2] Play TicTacToe");
-        Console.WriteLine("         ---------------------");
-        Console.WriteLine("         [3] Play Chess");
-        Console.WriteLine("         ---------------------");
-        Console.WriteLine("         [4] Play ---");
-        Console.WriteLine("         ---------------------");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [2] Delete a player");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [3] Login to play games");
+        Console.WriteLine("         ------------------------");
+        Console.WriteLine("         [4] Rankings");
+        Console.WriteLine("         ------------------------");
         Console.WriteLine("         [0] Shutdown");
-        Console.WriteLine("         ---------------------");
+        Console.WriteLine("         ------------------------");
         int option = int.Parse(Console.ReadLine());
         switch (option) {
             case 0:
@@ -40,6 +42,7 @@ public class LayoutHub {
             case 2:
                 break;
             case 3:
+                Login();
                 break;
             case 4:
                 break;
@@ -88,7 +91,7 @@ public class LayoutHub {
             }
             Console.WriteLine("         Insert a password (4 characters):");
             Console.Write("         ");
-            string pass = getPassword();
+            string pass = GetPassword();
             if (pass.Length == 4) {
                 Player player = new Player(nick, pass);
                 players.Add(player);
@@ -122,7 +125,7 @@ public class LayoutHub {
         }
 
     }
-    public static string getPassword() {
+    public static string GetPassword() {
         var pass = string.Empty;
         ConsoleKey key;
         do {
@@ -140,6 +143,64 @@ public class LayoutHub {
 
         Console.WriteLine();
         return pass;
+    }
+    private static void Login() {
+        Player player1 = new Player("1", "1");
+        Player player2 = new Player("2", "3");
+        string nick = null;
+        string pass = null;
+        for (int count = 1; count <= 2; count++) {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
+            Console.WriteLine("    [Type '0' to back]");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine($"         Player {count} nickname:");
+            Console.Write("         "); nick = Console.ReadLine();
+            Player player = players.FirstOrDefault(x => x.Nickname == nick);
+            //if (nick == "0") Mainscreen();
+            if (player != null) {
+                Console.WriteLine($"         Player {count} password:");
+                Console.Write("         "); pass = GetPassword();
+                //if (pass == "0") Mainscreen();
+                int index = players.IndexOf(player);
+                if (players[index].Password == pass) {
+                    if (count == 2) {
+                        player1 = new Player(nick, pass);
+                    } else {
+                        player2 = new Player(nick, pass);
+                    }
+                    if (player1.Nickname == player2.Nickname) {
+                        Warnings.Wrong();
+                        Console.WriteLine("             [You can't play alone, find a friend]");
+                        Thread.Sleep(2000);
+                        Login();
+                    } else {
+                        Warnings.Success();
+                        Console.WriteLine($"         Welcome, {player.Nickname}! You the player {count}");
+                        Thread.Sleep(2000);
+                    }
+                } else {
+                    Warnings.Wrong();
+                    Console.WriteLine("             [Wrong password, restart the process]");
+                    Thread.Sleep(2000);
+                    Login();
+                }
+            } else {
+                Warnings.Wrong();
+                Console.WriteLine("             [Player doesn't existe, restart the process]");
+                Thread.Sleep(2000);
+                Login();
+            }
+        }
+        LogedScreen(player1, player2);
+    }
+    private static void LogedScreen(Player player1, Player player2) {
+        Console.WriteLine(player1.Nickname);
+        Console.WriteLine(player2.Nickname);
+
     }
 }
 
