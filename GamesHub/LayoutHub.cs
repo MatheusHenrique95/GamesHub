@@ -1,26 +1,20 @@
 ﻿using GamesHub.Entities;
 using GamesHub.Games;
 using GamesHub.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Security.Cryptography;
 
 namespace GamesHub;
 public class LayoutHub {
+    public static string filename = "Players.json";
     private static List<Player> players = new List<Player>();
-
     public static void Mainscreen() {
 
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        Console.WriteLine("\n\n\n");
         Console.WriteLine("         [1] Register a player");
         Console.WriteLine("         ------------------------");
         Console.WriteLine("         [2] Delete a player");
@@ -40,11 +34,17 @@ public class LayoutHub {
                 RegisterPlayer();
                 break;
             case 2:
+                DeletePlayer();
                 break;
             case 3:
                 Login();
                 break;
             case 4:
+                foreach (Player player in players) {
+                    Console.WriteLine(player.TicTacToePoints);
+                }
+                Thread.Sleep(3000);
+                Mainscreen();
                 break;
             default:
                 Warnings.Wrong();
@@ -54,6 +54,7 @@ public class LayoutHub {
                 break;
         }
     }
+
     private static void Shutdown() {
         Warnings.Wrong();
         Console.WriteLine("                     =============================");
@@ -65,15 +66,13 @@ public class LayoutHub {
         Console.Write(".");
         Thread.Sleep(700);
         Console.Write(".");
-        Console.WriteLine();
-        Console.WriteLine();
-        Thread.Sleep(2000);
+        Console.WriteLine("\n\n\n\n");
+        Thread.Sleep(1500);
+
     }
     private static void RegisterPlayer() {
         Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        Console.WriteLine("\n\n\n");
         Console.WriteLine("         Insert a nickname (just numbers and letters, minimum 6 characters):");
         Console.Write("         ");
         string nick = Console.ReadLine();
@@ -95,6 +94,8 @@ public class LayoutHub {
             if (pass.Length == 4) {
                 Player player = new Player(nick, pass);
                 players.Add(player);
+                string jsonstring = JsonSerializer.Serialize(players);
+                File.WriteAllText(filename, jsonstring);
                 Warnings.Success();
                 Console.WriteLine("                     =====================");
                 Console.WriteLine("                     =====================");
@@ -125,6 +126,53 @@ public class LayoutHub {
         }
 
     }
+    private static void DeletePlayer() {
+        Console.Clear();
+        Console.WriteLine("\n\n\n");
+        Console.WriteLine("         Insert a nickname to delete:");
+        Console.Write("         ");
+        string nick = Console.ReadLine();
+        Player player = players.FirstOrDefault(x => x.Nickname == nick);
+        if(player == null) {
+            Warnings.Wrong();
+            Console.WriteLine("                     =================================");
+            Console.WriteLine("                     =================================");
+            Console.WriteLine("                     Player doesn't exist, try another");
+            Console.WriteLine("                     =================================");
+            Console.WriteLine("                     =================================");
+            Thread.Sleep(2000);
+            Mainscreen();
+        } else {
+            Console.WriteLine("\n\n\n");
+            Console.WriteLine("         You really want to delete this player? (Y/N)");
+            Console.Write("         ");
+            string confirm = Console.ReadLine();
+            if (confirm == "N"|| confirm == "n") {
+             Warnings.Success();
+                Console.WriteLine("\t\t\t Ok, going back.");
+                Thread.Sleep(2000);
+                Mainscreen();
+            }
+            else if(confirm == "Y" || confirm == "y") {
+                players.Remove(player);
+                string jsonstring = JsonSerializer.Serialize(players);
+                File.WriteAllText(filename, jsonstring);
+                Warnings.Success();
+                Console.WriteLine("                     ========================");
+                Console.WriteLine("                     ========================");
+                Console.WriteLine("                     Player sucefully deleted");
+                Console.WriteLine("                     ========================");
+                Console.WriteLine("                     ========================");
+                Thread.Sleep(3000);
+                Mainscreen();
+            } else {
+                Warnings.Wrong();
+                Console.WriteLine("\t\t\t Type (Y) or (N)");
+                Thread.Sleep(3000);
+                Mainscreen();
+            }
+        }
+    }
     public static string GetPassword() {
         var pass = string.Empty;
         ConsoleKey key;
@@ -153,18 +201,13 @@ public class LayoutHub {
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
-            Console.WriteLine("    [Type '0' to back]");
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
+            Console.WriteLine("\n\n\n");
             Console.WriteLine($"         Player {count} nickname:");
             Console.Write("         "); nick = Console.ReadLine();
             Player player = players.FirstOrDefault(x => x.Nickname == nick);
-            //if (nick == "0") Mainscreen();
             if (player != null) {
                 Console.WriteLine($"         Player {count} password:");
                 Console.Write("         "); pass = GetPassword();
-                //if (pass == "0") Mainscreen();
                 int index = players.IndexOf(player);
                 if (players[index].Password == pass) {
                     if (count == 2) {
@@ -201,9 +244,7 @@ public class LayoutHub {
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        Console.WriteLine("\n\n\n");
         Console.WriteLine("         [1] Play Tic Tac Toe");
         Console.WriteLine("         ------------------------");
         Console.WriteLine("         [2] Play Chess");
@@ -220,8 +261,12 @@ public class LayoutHub {
             case 1:
                 TicTacToe newGame = new TicTacToe(player1, player2);
                 newGame.PlayTicTacToe(player1, player2);
+                LogedScreen(player1, player2);
                 break;
             case 2:
+                player1.WinTicTacToe();
+                player2.WinTicTacToe();
+                LogedScreen(player1, player2);
                 break;
             case 3:
                 break;
@@ -234,5 +279,15 @@ public class LayoutHub {
         }
 
     }
+    public static void ReadPlayers() {
+        string jsonString = File.ReadAllText(filename);
+        if (!string.IsNullOrEmpty(jsonString)) {
+            List<Player> allplayers = JsonSerializer.Deserialize<List<Player>>(jsonString);
+            allplayers.ForEach(player => players.Add(player));
+        } else {
+            Console.WriteLine(" ");
+        }
+    }
+
 }
 
