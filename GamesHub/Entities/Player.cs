@@ -6,31 +6,32 @@ namespace GamesHub.Entities {
         public int TicTacToePoints { get; private set; }
         public int NavalBattlePoints { get; private set; }
         public int ChessPoints { get; private set; }
+        public int Points { get; private set; }
 
         public Player(string nickname, string password) {
             Nickname = nickname;
             Password = password;
-            TicTacToePoints = 0;
-            NavalBattlePoints = 0;
-            ChessPoints = 0;
         }
-        public void WinTicTacToe() {
-            TicTacToePoints += 3;
+        public int SumPoints() {
+            return Points = TicTacToePoints + ChessPoints + NavalBattlePoints;
         }
-        public void TieTicTacToe() {
-            TicTacToePoints += 1;
+        public int WinTicTacToe() {
+            return TicTacToePoints += 3;
+        }
+        public int TieTicTacToe() {
+            return TicTacToePoints++;
         }
         public int WinNavalBattle() {
-            return NavalBattlePoints += 3;
+            return NavalBattlePoints +=3;
         }
         public int TieNavalBattle() {
-            return NavalBattlePoints += 1;
+            return NavalBattlePoints++;
         }
         public int WinChess() {
-            return ChessPoints += 3;
+            return ChessPoints +=3;
         }
         public int TieChess() {
-            return ChessPoints += 1;
+            return ChessPoints ++;
         }
 
     }

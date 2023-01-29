@@ -5,12 +5,13 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Security.Cryptography;
 
-namespace GamesHub;
-public class LayoutHub {
+namespace GamesHub.Util;
+public class LayoutHub
+{
     public static string filename = "Players.json";
-    private static List<Player> players = new List<Player>();
-    public static void Mainscreen() {
-
+    public static List<Player> players = new List<Player>();
+    public static void Mainscreen()
+    {
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
@@ -26,7 +27,8 @@ public class LayoutHub {
         Console.WriteLine("         [0] Shutdown");
         Console.WriteLine("         ------------------------");
         int option = int.Parse(Console.ReadLine());
-        switch (option) {
+        switch (option)
+        {
             case 0:
                 Shutdown();
                 break;
@@ -40,11 +42,7 @@ public class LayoutHub {
                 Login();
                 break;
             case 4:
-                foreach (Player player in players) {
-                    Console.WriteLine(player.TicTacToePoints);
-                }
-                Thread.Sleep(3000);
-                Mainscreen();
+                Rankings.RankingsMenu();
                 break;
             default:
                 Warnings.Wrong();
@@ -54,8 +52,8 @@ public class LayoutHub {
                 break;
         }
     }
-
-    private static void Shutdown() {
+    private static void Shutdown()
+    {
         Warnings.Wrong();
         Console.WriteLine("                     =============================");
         Console.WriteLine("                     =============================");
@@ -70,28 +68,32 @@ public class LayoutHub {
         Thread.Sleep(1500);
 
     }
-    private static void RegisterPlayer() {
+    private static void RegisterPlayer()
+    {
         Console.Clear();
         Console.WriteLine("\n\n\n");
-        Console.WriteLine("         Insert a nickname (just numbers and letters, minimum 6 characters):");
+        Console.WriteLine("         Insert a nickname (just numbers and letters, 6 characters):");
         Console.Write("         ");
         string nick = Console.ReadLine();
         Player player1 = players.FirstOrDefault(x => x.Nickname == nick);
-        if (nick.Length >= 6 && Regex.IsMatch(nick, "^[a-z A-Z 0-9]+$")) {
-            if (player1 != null) {
+        if (nick.Length == 6 && Regex.IsMatch(nick, "^[a-z A-Z 0-9]+$"))
+        {
+            if (player1 != null)
+            {
                 Warnings.Wrong();
-                Console.WriteLine("                     =============================");
-                Console.WriteLine("                     =============================");
-                Console.WriteLine("                     Player registred, try another");
-                Console.WriteLine("                     =============================");
-                Console.WriteLine("                     =============================");
+                Console.WriteLine("                     =====================================");
+                Console.WriteLine("                     =====================================");
+                Console.WriteLine("                     Player already registred, try another");
+                Console.WriteLine("                     =====================================");
+                Console.WriteLine("                     =====================================");
                 Thread.Sleep(2000);
                 Mainscreen();
             }
             Console.WriteLine("         Insert a password (4 characters):");
             Console.Write("         ");
             string pass = GetPassword();
-            if (pass.Length == 4) {
+            if (pass.Length == 4)
+            {
                 Player player = new Player(nick, pass);
                 players.Add(player);
                 string jsonstring = JsonSerializer.Serialize(players);
@@ -104,7 +106,9 @@ public class LayoutHub {
                 Console.WriteLine("                     =====================");
                 Thread.Sleep(2000);
                 Mainscreen();
-            } else {
+            }
+            else
+            {
                 Warnings.Wrong();
                 Console.WriteLine("                     ===============================");
                 Console.WriteLine("                     ===============================");
@@ -114,7 +118,9 @@ public class LayoutHub {
                 Thread.Sleep(2000);
                 Mainscreen();
             }
-        } else {
+        }
+        else
+        {
             Warnings.Wrong();
             Console.WriteLine("                     =======================");
             Console.WriteLine("                     =======================");
@@ -126,14 +132,16 @@ public class LayoutHub {
         }
 
     }
-    private static void DeletePlayer() {
+    private static void DeletePlayer()
+    {
         Console.Clear();
         Console.WriteLine("\n\n\n");
         Console.WriteLine("         Insert a nickname to delete:");
         Console.Write("         ");
         string nick = Console.ReadLine();
         Player player = players.FirstOrDefault(x => x.Nickname == nick);
-        if(player == null) {
+        if (player == null)
+        {
             Warnings.Wrong();
             Console.WriteLine("                     =================================");
             Console.WriteLine("                     =================================");
@@ -142,18 +150,22 @@ public class LayoutHub {
             Console.WriteLine("                     =================================");
             Thread.Sleep(2000);
             Mainscreen();
-        } else {
+        }
+        else
+        {
             Console.WriteLine("\n\n\n");
             Console.WriteLine("         You really want to delete this player? (Y/N)");
             Console.Write("         ");
             string confirm = Console.ReadLine();
-            if (confirm == "N"|| confirm == "n") {
-             Warnings.Success();
+            if (confirm == "N" || confirm == "n")
+            {
+                Warnings.Success();
                 Console.WriteLine("\t\t\t Ok, going back.");
                 Thread.Sleep(2000);
                 Mainscreen();
             }
-            else if(confirm == "Y" || confirm == "y") {
+            else if (confirm == "Y" || confirm == "y")
+            {
                 players.Remove(player);
                 string jsonstring = JsonSerializer.Serialize(players);
                 File.WriteAllText(filename, jsonstring);
@@ -165,7 +177,9 @@ public class LayoutHub {
                 Console.WriteLine("                     ========================");
                 Thread.Sleep(3000);
                 Mainscreen();
-            } else {
+            }
+            else
+            {
                 Warnings.Wrong();
                 Console.WriteLine("\t\t\t Type (Y) or (N)");
                 Thread.Sleep(3000);
@@ -173,17 +187,22 @@ public class LayoutHub {
             }
         }
     }
-    public static string GetPassword() {
+    public static string GetPassword()
+    {
         var pass = string.Empty;
         ConsoleKey key;
-        do {
+        do
+        {
             var keyInfo = Console.ReadKey(intercept: true);
             key = keyInfo.Key;
 
-            if (key == ConsoleKey.Backspace && pass.Length > 0) {
+            if (key == ConsoleKey.Backspace && pass.Length > 0)
+            {
                 Console.Write("\b \b");
                 pass = pass[0..^1];
-            } else if (!char.IsControl(keyInfo.KeyChar)) {
+            }
+            else if (!char.IsControl(keyInfo.KeyChar))
+            {
                 Console.Write("*");
                 pass += keyInfo.KeyChar;
             }
@@ -192,12 +211,14 @@ public class LayoutHub {
         Console.WriteLine();
         return pass;
     }
-    private static void Login() {
+    private static void Login()
+    {
         Player player1 = new Player("1", "1");
         Player player2 = new Player("2", "3");
         string nick = null;
         string pass = null;
-        for (int count = 1; count <= 2; count++) {
+        for (int count = 1; count <= 2; count++)
+        {
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
@@ -205,33 +226,45 @@ public class LayoutHub {
             Console.WriteLine($"         Player {count} nickname:");
             Console.Write("         "); nick = Console.ReadLine();
             Player player = players.FirstOrDefault(x => x.Nickname == nick);
-            if (player != null) {
+            if (player != null)
+            {
                 Console.WriteLine($"         Player {count} password:");
                 Console.Write("         "); pass = GetPassword();
                 int index = players.IndexOf(player);
-                if (players[index].Password == pass) {
-                    if (count == 2) {
+                if (players[index].Password == pass)
+                {
+                    if (count == 2)
+                    {
                         player1 = new Player(nick, pass);
-                    } else {
+                    }
+                    else
+                    {
                         player2 = new Player(nick, pass);
                     }
-                    if (player1.Nickname == player2.Nickname) {
+                    if (player1.Nickname == player2.Nickname)
+                    {
                         Warnings.Wrong();
                         Console.WriteLine("             [You can't play alone, find a friend]");
                         Thread.Sleep(2000);
                         Login();
-                    } else {
+                    }
+                    else
+                    {
                         Warnings.Success();
                         Console.WriteLine($"         Welcome, {player.Nickname}! You the player {count}");
                         Thread.Sleep(2000);
                     }
-                } else {
+                }
+                else
+                {
                     Warnings.Wrong();
                     Console.WriteLine("             [Wrong password, restart the process]");
                     Thread.Sleep(2000);
                     Login();
                 }
-            } else {
+            }
+            else
+            {
                 Warnings.Wrong();
                 Console.WriteLine("             [Player doesn't existe, restart the process]");
                 Thread.Sleep(2000);
@@ -240,33 +273,34 @@ public class LayoutHub {
         }
         LogedScreen(player1, player2);
     }
-    private static void LogedScreen(Player player1, Player player2) {
+    private static void LogedScreen(Player player1, Player player2)
+    {
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
         Console.WriteLine("\n\n\n");
         Console.WriteLine("         [1] Play Tic Tac Toe");
         Console.WriteLine("         ------------------------");
-        Console.WriteLine("         [2] Play Chess");
+        Console.WriteLine("         [2] Play Naval Battle");
         Console.WriteLine("         ------------------------");
-        Console.WriteLine("         [3] Play...");
+        Console.WriteLine("         [3] Play Chess(To do)");
         Console.WriteLine("         ------------------------");
-        Console.WriteLine("         [0] Back to Mainscreen");
+        Console.WriteLine("         [0] Back to main screen");
         Console.WriteLine("         ------------------------");
         int option = int.Parse(Console.ReadLine());
-        switch (option) {
+        switch (option)
+        {
             case 0:
                 Mainscreen();
                 break;
             case 1:
                 TicTacToe newGame = new TicTacToe(player1, player2);
                 newGame.PlayTicTacToe(player1, player2);
+                string jsonstring = JsonSerializer.Serialize(players);
+                File.WriteAllText(filename, jsonstring);
                 LogedScreen(player1, player2);
                 break;
             case 2:
-                player1.WinTicTacToe();
-                player2.WinTicTacToe();
-                LogedScreen(player1, player2);
                 break;
             case 3:
                 break;
@@ -279,12 +313,16 @@ public class LayoutHub {
         }
 
     }
-    public static void ReadPlayers() {
+    public static void ReadPlayers()
+    {
         string jsonString = File.ReadAllText(filename);
-        if (!string.IsNullOrEmpty(jsonString)) {
+        if (!string.IsNullOrEmpty(jsonString))
+        {
             List<Player> allplayers = JsonSerializer.Deserialize<List<Player>>(jsonString);
             allplayers.ForEach(player => players.Add(player));
-        } else {
+        }
+        else
+        {
             Console.WriteLine(" ");
         }
     }
