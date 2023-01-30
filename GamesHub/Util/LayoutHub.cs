@@ -54,6 +54,8 @@ public class LayoutHub
     }
     private static void Shutdown()
     {
+        string jsonstring = JsonSerializer.Serialize(players);
+        File.WriteAllText(filename, jsonstring);
         Warnings.Wrong();
         Console.WriteLine("                     =============================");
         Console.WriteLine("                     =============================");
@@ -233,7 +235,7 @@ public class LayoutHub
                 int index = players.IndexOf(player);
                 if (players[index].Password == pass)
                 {
-                    if (count == 2)
+                    if (count == 1)
                     {
                         player1 = new Player(nick, pass);
                     }
@@ -294,13 +296,13 @@ public class LayoutHub
                 Mainscreen();
                 break;
             case 1:
-                TicTacToe newGame = new TicTacToe(player1, player2);
-                newGame.PlayTicTacToe(player1, player2);
-                string jsonstring = JsonSerializer.Serialize(players);
-                File.WriteAllText(filename, jsonstring);
+                TicTacToe newGameT = new TicTacToe(player1, player2);
+                newGameT.PlayTicTacToe(player1, player2);
                 LogedScreen(player1, player2);
                 break;
             case 2:
+                NavalBattle newGameN = new NavalBattle(player1, player2);
+                newGameN.Layout(player1);
                 break;
             case 3:
                 break;

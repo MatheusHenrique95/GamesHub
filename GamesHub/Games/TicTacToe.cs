@@ -14,7 +14,7 @@ public class TicTacToe {
     private string mark = " ";
     private int option = 0;
     private string[,] position = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
-    public void Layout() {
+    private void Layout() {
         Console.WriteLine("\n\n\n\n");
 
         Console.Write($"                    |       |       \n" +

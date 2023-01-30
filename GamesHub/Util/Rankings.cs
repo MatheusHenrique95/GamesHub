@@ -3,10 +3,6 @@ using GamesHub.Helpers;
 
 namespace GamesHub.Util;
 public class Rankings {
-    private static int count = 0;
-    private static int tcount = 0;
-    private static int ncount = 0;
-    private static int ccount = 0;
     public static void RankingsMenu() {
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -71,43 +67,47 @@ public class Rankings {
         }
     }
     private static void GeneralRanking() {
-        List<Player> rankedPlayers = LayoutHub.players.OrderByDescending(player => player.Points).ToList();
+        int count = 0;
+        List<Player> GeneralRankedPlayers = LayoutHub.players.OrderByDescending(player => player.Points).ToList();
         Console.WriteLine("\t\t\tGeneral ranking");
         Console.WriteLine("\t\t Position | Nickname | Points");
-        foreach (Player player in rankedPlayers) {
+        foreach (Player player in GeneralRankedPlayers) {
             count++;
             player.SumPoints();
-            Console.WriteLine($"\t\t     {count}°   |  { player.Nickname}  |   { player.Points}");
+            Console.WriteLine($"\t\t    {count:D2}°   |  { player.Nickname}  |   { player.Points}");
         }
     }
     private static void TicTacToeRanking() {
-        List<Player> rankedPlayers = LayoutHub.players.OrderByDescending(player => player.TicTacToePoints).ToList();
+        int tcount = 0;
+        List<Player> TicTacToeRankedPlayers = LayoutHub.players.OrderByDescending(player => player.TicTacToePoints).ToList();
         Console.WriteLine("\t\t\tTicTacToe ranking");
         Console.WriteLine("\t\t Position | Nickname | Points");
-        foreach (Player player in rankedPlayers) {
+        foreach (Player player in TicTacToeRankedPlayers) {
             tcount++;
             player.SumPoints();
-            Console.WriteLine($"\t\t     {tcount}°   |  {player.Nickname}  |   {player.TicTacToePoints}");
+            Console.WriteLine($"\t\t    {tcount:D2}°   |  {player.Nickname}  |   {player.TicTacToePoints}");
         }
     }
     private static void NavalBattleRanking() {
-        List<Player> rankedPlayers = LayoutHub.players.OrderByDescending(player => player.NavalBattlePoints).ToList();
+        int ncount = 0;
+        List<Player> NavalBattleRankedPlayers = LayoutHub.players.OrderByDescending(player => player.NavalBattlePoints).ToList();
         Console.WriteLine("\t\t\tNaval Battle ranking");
         Console.WriteLine("\t\t Position | Nickname | Points");
-        foreach (Player player in rankedPlayers) {
+        foreach (Player player in NavalBattleRankedPlayers) {
             ncount++;
             player.SumPoints();
-            Console.WriteLine($"\t\t     {ncount}°   |  {player.Nickname}  |   {player.NavalBattlePoints}");
+            Console.WriteLine($"\t\t    {ncount:D2}°   |  {player.Nickname}  |   {player.NavalBattlePoints}");
         }
     }
     private static void ChessRanking() {
-        List<Player> rankedPlayers = LayoutHub.players.OrderByDescending(player => player.ChessPoints).ToList();
+        int ccount = 0;
+        List<Player> ChessRankedPlayers = LayoutHub.players.OrderByDescending(player => player.ChessPoints).ToList();
         Console.WriteLine("\t\t\tChess ranking");
         Console.WriteLine("\t\t Position | Nickname | Points");
-        foreach (Player player in rankedPlayers) {
+        foreach (Player player in ChessRankedPlayers) {
             ccount++;
             player.SumPoints();
-            Console.WriteLine($"\t\t     {ccount}°   |  {player.Nickname}  |   {player.ChessPoints}");
+            Console.WriteLine($"\t\t    {ccount:D2}°   |  {player.Nickname}  |   {player.ChessPoints}");
         }
     }
 }
